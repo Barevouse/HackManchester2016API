@@ -12,7 +12,7 @@ namespace Images.Controllers
     public class TwitterController : ApiController
     {
         [HttpPost]
-        public IHttpActionResult SendTweet(TweetThing tweet)
+        public IHttpActionResult SendTweet(TweetImage tweet)
         {
             var twitter = new TwitterService("lsoMiOYqptZ6MdxxTiM1sIsc7", "7x15u25SsTNKhXDG5hRrChV2P3zl3RzC0SxJPs6BMiBKzG1nzi");
 
