@@ -80,7 +80,8 @@ namespace Images.Controllers
                             var ms = new MemoryStream(image);
                             var bmp = new Bitmap(Image.FromStream(ms));
 
-                            var decryptedMessage = Steganography.Extract(bmp);
+                            var extracted = Steganography.Extract(bmp);
+                            var decryptedMessage = Encryption.Decrypt(extracted);
                             var embedded = new JavaScriptSerializer().Deserialize<EmbeddedDetails>(decryptedMessage);
                             
                             var currentLocation = new GeoCoordinate {Latitude = latitude, Longitude = longitude};
