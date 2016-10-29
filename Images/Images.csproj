@@ -164,6 +164,8 @@
     <Compile Include="Models\ImageDetails.cs" />
     <Compile Include="Models\MessageDetails.cs" />
     <Compile Include="Models\RetrievedMessage.cs" />
+    <Compile Include="Models\TweetImage.cs" />
+    <Compile Include="RandomImage.cs" />
     <Compile Include="Steganography.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TwitterController.cs" />
