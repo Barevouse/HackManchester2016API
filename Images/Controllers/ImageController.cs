@@ -2,11 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Web.Http;
-using System.Web.Http.Results;
 using Images.Models;
 
 namespace Images.Controllers
@@ -16,8 +12,16 @@ namespace Images.Controllers
         [HttpPost, Route("api/image/create")]
         public IHttpActionResult Create(MessageDetails details)
         {
+            if (string.IsNullOrEmpty(details.Message))
+            {
+                return BadRequest("Needs a Message");    
+            }
+            if (string.IsNullOrEmpty(details.Target))
+            {
+                return BadRequest("Needs a Target");    
+            }
             Bitmap bmp;
-            if (details.Image != null)
+            if (string.IsNullOrEmpty(details.Image))
             {
                 bmp = GetBitmapFromBase64(details.Image);
             }
@@ -34,8 +38,16 @@ namespace Images.Controllers
         }
 
         [HttpPost, Route("api/image/retrieve")]
-        public IHttpActionResult Retrieve(CreatedImage details)
+        public IHttpActionResult Retrieve(ImageDetails details)
         {
+            if (string.IsNullOrEmpty(details.Image))
+            {
+                return BadRequest("Needs an Image");
+            }
+            if (string.IsNullOrEmpty(details.Username))
+            {
+                return BadRequest("Needs a Username");
+            }
             var bmp = GetBitmapFromBase64(details.Image);
             var message = Steganography.Extract(bmp);
             return Ok(new RetrievedMessage { Message = message });

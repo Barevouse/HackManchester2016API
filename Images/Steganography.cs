@@ -2,7 +2,7 @@
 
 namespace Images
 {
-    public class Steganography
+    public static class Steganography
     {
         private const int LsbBit = 2;
         private const int BitLength = 8;
