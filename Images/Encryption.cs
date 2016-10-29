@@ -19,10 +19,17 @@ namespace Images
         public static string Decrypt(string text)
         {
             var cryptoProvider = CreateCryptoProvider();
-            var textArray = Convert.FromBase64String(text);
-            var decrypter = cryptoProvider.CreateDecryptor();
-            var decryptedArray = TransformArray(decrypter, textArray, cryptoProvider);
-            return Encoding.UTF8.GetString(decryptedArray);
+            try
+            {
+                var textArray = Convert.FromBase64String(text);
+                var decrypter = cryptoProvider.CreateDecryptor();
+                var decryptedArray = TransformArray(decrypter, textArray, cryptoProvider);
+                return Encoding.UTF8.GetString(decryptedArray);
+            }
+            catch (FormatException)
+            {
+                return string.Empty;
+            }
         }
 
         private static TripleDESCryptoServiceProvider CreateCryptoProvider()
