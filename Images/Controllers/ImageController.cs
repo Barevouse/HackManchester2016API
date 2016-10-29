@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Device.Location;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -51,11 +52,17 @@ namespace Images.Controllers
             {
                 return BadRequest("Needs an Image");
             }
+            if (details.Latitude == null || details.Longitude == null)
+            {
+                return BadRequest("Needs a Latitude and Longitude");
+            }
             var bmp = GetBitmapFromBase64(details.Image);
             var extracted = Steganography.Extract(bmp);
             var decrypted = Encryption.Decrypt(extracted);
             var embedded = new JavaScriptSerializer().Deserialize<EmbeddedDetails>(decrypted);
-            return Ok(embedded);
+            var imageLocation = new GeoCoordinate(embedded.Latitude, embedded.Longitude);
+            var userLocation = new GeoCoordinate(details.Latitude.Value, details.Longitude.Value);
+            return Ok(GeoLocation.WithinRadius(imageLocation, userLocation) ? embedded : new EmbeddedDetails());
         }
 
         private static Bitmap GetBitmapFromBase64(string image)

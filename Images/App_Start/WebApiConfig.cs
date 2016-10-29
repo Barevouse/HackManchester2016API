@@ -22,6 +22,9 @@ namespace Images
             );
             config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;  
             config.Formatters.Add(new BrowserJsonFormatter());
+
+            config.Formatters.JsonFormatter.SerializerSettings.Formatting = Formatting.Indented;
+            config.Formatters.JsonFormatter.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
         }
     }
 
