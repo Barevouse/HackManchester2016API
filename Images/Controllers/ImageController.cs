@@ -16,10 +16,6 @@ namespace Images.Controllers
             {
                 return BadRequest("Needs a Message");    
             }
-            if (string.IsNullOrEmpty(details.Target))
-            {
-                return BadRequest("Needs a Target");    
-            }
             Bitmap bmp;
             if (!string.IsNullOrEmpty(details.Image))
             {
@@ -30,12 +26,9 @@ namespace Images.Controllers
                 var imagePath = System.Web.Hosting.HostingEnvironment.MapPath(@"~/App_Data/espionage.jpg");
                 bmp = new Bitmap(Image.FromFile(imagePath));
             }
-            var key = details.Target.ToLower();
-            var message = Encryption.Encrypt(key + ":" + details.Message, key);
+            var message = Encryption.Encrypt(details.Message);
             var img = Steganography.Embed(message, bmp);
-            var ms = new MemoryStream();
-            img.Save(ms, ImageFormat.Png);
-            var result = Convert.ToBase64String(ms.ToArray());
+            var result = GetBase64FromBitmap(img);
             return Ok(new CreatedImage { Image = result });
         }
 
@@ -46,21 +39,10 @@ namespace Images.Controllers
             {
                 return BadRequest("Needs an Image");
             }
-            if (string.IsNullOrEmpty(details.Username))
-            {
-                return BadRequest("Needs a Username");
-            }
             var bmp = GetBitmapFromBase64(details.Image);
             var extracted = Steganography.Extract(bmp);
-            var key = details.Username.ToLower();
-            var decrypted = Encryption.Decrypt(extracted, key);
-            var message = string.Empty;
-            var messageStart = key + ":";
-            if (decrypted.StartsWith(messageStart))
-            {
-                message = decrypted.Replace(messageStart, string.Empty);
-            }
-            return Ok(new RetrievedMessage { Message = message });
+            var decrypted = Encryption.Decrypt(extracted);
+            return Ok(new RetrievedMessage { Message = decrypted });
         }
 
         private static Bitmap GetBitmapFromBase64(string image)
@@ -69,6 +51,14 @@ namespace Images.Controllers
             var ms = new MemoryStream(bytes);
             var bmp = new Bitmap(Image.FromStream(ms));
             return bmp;
+        }
+
+        private static string GetBase64FromBitmap(Image img)
+        {
+            var ms = new MemoryStream();
+            img.Save(ms, ImageFormat.Png);
+            var result = Convert.ToBase64String(ms.ToArray());
+            return result;
         }
     }
 }
