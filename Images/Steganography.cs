@@ -9,17 +9,17 @@ namespace Images
         private const int RgbLength = 3;
         private enum State
         {
-            Hiding,
-            Ending
+            Processing,
+            Finished
         };
 
         public static Bitmap Embed(string text, Bitmap bmp)
         {
-            var state = State.Hiding;
+            var state = State.Processing;
             var charIndex = 0;
             var charValue = 0;
-            long pixelElementIndex = 0;
-            var zeros = 0;
+            long pixelIndex = 0;
+            var numberOfZeros = 0;
 
             for (var y = 0; y < bmp.Height; y++)
             {
@@ -33,11 +33,11 @@ namespace Images
 
                     for (var n = 0; n < RgbLength; n++)
                     {
-                        if (pixelElementIndex % BitLength == 0)
+                        if (pixelIndex % BitLength == 0)
                         {
-                            if (state == State.Ending && zeros == BitLength)
+                            if (state == State.Finished && numberOfZeros == BitLength)
                             {
-                                if ((pixelElementIndex - 1) % RgbLength < LsbBit)
+                                if ((pixelIndex - 1) % RgbLength < LsbBit)
                                 {
                                     bmp.SetPixel(x, y, Color.FromArgb(r, g, b));
                                 }
@@ -47,7 +47,7 @@ namespace Images
 
                             if (charIndex >= text.Length)
                             {
-                                state = State.Ending;
+                                state = State.Finished;
                             }
                             else
                             {
@@ -55,10 +55,10 @@ namespace Images
                             }
                         }
 
-                        switch (pixelElementIndex % RgbLength)
+                        switch (pixelIndex % RgbLength)
                         {
                             case 0:
-                                if (state == State.Hiding)
+                                if (state == State.Processing)
                                 {
                                     r += charValue % LsbBit;
 
@@ -66,7 +66,7 @@ namespace Images
                                 }
                                 break;
                             case 1:
-                                if (state == State.Hiding)
+                                if (state == State.Processing)
                                 {
                                     g += charValue % LsbBit;
 
@@ -74,7 +74,7 @@ namespace Images
                                 }
                                 break;
                             case LsbBit:
-                                if (state == State.Hiding)
+                                if (state == State.Processing)
                                 {
                                     b += charValue % LsbBit;
 
@@ -85,11 +85,11 @@ namespace Images
                                 break;
                         }
 
-                        pixelElementIndex++;
+                        pixelIndex++;
 
-                        if (state == State.Ending)
+                        if (state == State.Finished)
                         {
-                            zeros++;
+                            numberOfZeros++;
                         }
                     }
                 }

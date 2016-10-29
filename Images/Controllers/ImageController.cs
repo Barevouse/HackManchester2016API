@@ -21,7 +21,7 @@ namespace Images.Controllers
                 return BadRequest("Needs a Target");    
             }
             Bitmap bmp;
-            if (string.IsNullOrEmpty(details.Image))
+            if (!string.IsNullOrEmpty(details.Image))
             {
                 bmp = GetBitmapFromBase64(details.Image);
             }
@@ -30,7 +30,9 @@ namespace Images.Controllers
                 var imagePath = System.Web.Hosting.HostingEnvironment.MapPath(@"~/App_Data/espionage.jpg");
                 bmp = new Bitmap(Image.FromFile(imagePath));
             }
-            var img = Steganography.Embed(details.Target + ":" + details.Message, bmp);
+            var key = details.Target.ToLower();
+            var message = Encryption.Encrypt(key + ":" + details.Message, key);
+            var img = Steganography.Embed(message, bmp);
             var ms = new MemoryStream();
             img.Save(ms, ImageFormat.Png);
             var result = Convert.ToBase64String(ms.ToArray());
@@ -49,7 +51,15 @@ namespace Images.Controllers
                 return BadRequest("Needs a Username");
             }
             var bmp = GetBitmapFromBase64(details.Image);
-            var message = Steganography.Extract(bmp);
+            var extracted = Steganography.Extract(bmp);
+            var key = details.Username.ToLower();
+            var decrypted = Encryption.Decrypt(extracted, key);
+            var message = string.Empty;
+            var messageStart = key + ":";
+            if (decrypted.StartsWith(messageStart))
+            {
+                message = decrypted.Replace(messageStart, string.Empty);
+            }
             return Ok(new RetrievedMessage { Message = message });
         }
 

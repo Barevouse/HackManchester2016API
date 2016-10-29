@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Encryption.cs" />
     <Compile Include="Models\CreatedImage.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Models\ImageDetails.cs" />
