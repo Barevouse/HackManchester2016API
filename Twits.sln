@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Images", "Images\Images.csproj", "{110745E8-6004-46CA-8499-6977998C0408}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twitspionage", "Twitspionage\Twitspionage.csproj", "{EBCEFA40-6081-452E-B810-E8F872B261AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{110745E8-6004-46CA-8499-6977998C0408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{110745E8-6004-46CA-8499-6977998C0408}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{110745E8-6004-46CA-8499-6977998C0408}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{110745E8-6004-46CA-8499-6977998C0408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBCEFA40-6081-452E-B810-E8F872B261AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBCEFA40-6081-452E-B810-E8F872B261AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBCEFA40-6081-452E-B810-E8F872B261AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBCEFA40-6081-452E-B810-E8F872B261AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
