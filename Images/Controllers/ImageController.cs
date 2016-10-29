@@ -7,41 +7,32 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Results;
+using Images.Models;
 
 namespace Images.Controllers
 {
     public class ImageController : ApiController
     {
-        public class CreateImage
-        {
-            public string Username { get; set; }
-            public string Message { get; set; }
-        }
-
-        public class CreatedImage
-        {
-            public string Image { get; set; }
-        }
-
-        [HttpPost]
-        public IHttpActionResult Create(CreateImage details)
+        [HttpPost, Route("api/image/create")]
+        public IHttpActionResult Create(MessageDetails details)
         {
             var imagePath = System.Web.Hosting.HostingEnvironment.MapPath(@"~/App_Data/espionage.jpg");
             var bmp = new Bitmap(Image.FromFile(imagePath));
-
-            using (Graphics graphics = Graphics.FromImage(bmp))
-            {
-                using (Font arial = new Font("Arial", 10))
-                {
-                    graphics.DrawString(details.Username, arial, Brushes.Red, new PointF(10, 10));
-                    graphics.DrawString(details.Message, arial, Brushes.DarkRed, new PointF(10, 20));
-                }
-            }
-
+            var img = Steganography.Embed(details.Username + ":" + details.Message, bmp);
             var ms = new MemoryStream();
-            bmp.Save(ms, ImageFormat.Png);
+            img.Save(ms, ImageFormat.Png);
             var result = Convert.ToBase64String(ms.ToArray());
             return Ok(new CreatedImage { Image = result });
-        }       
+        }
+
+        [HttpPost, Route("api/image/retrieve")]
+        public IHttpActionResult Retrieve(CreatedImage details)
+        {
+            var bytes = Convert.FromBase64String(details.Image);
+            var ms = new MemoryStream(bytes);
+            var bmp = new Bitmap(Image.FromStream(ms));
+            var message = Steganography.Extract(bmp);
+            return Ok(new RetrievedMessage { Message = message });
+        }
     }
 }

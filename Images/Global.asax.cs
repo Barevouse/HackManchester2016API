@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Web.Http;
-using Images.App_Start;
 
 namespace Images
 {
