@@ -60,9 +60,12 @@ namespace Images.Controllers
             var extracted = Steganography.Extract(bmp);
             var decrypted = Encryption.Decrypt(extracted);
             var embedded = new JavaScriptSerializer().Deserialize<EmbeddedDetails>(decrypted);
+            if (embedded == null) return Ok(new EmbeddedDetails());
             var imageLocation = new GeoCoordinate(embedded.Latitude, embedded.Longitude);
             var userLocation = new GeoCoordinate(details.Latitude.Value, details.Longitude.Value);
-            return Ok(GeoLocation.WithinRadius(imageLocation, userLocation) ? embedded : new EmbeddedDetails());
+            var withinRadius = GeoLocation.WithinRadius(imageLocation, userLocation);
+            var content = withinRadius ? embedded : new EmbeddedDetails();
+            return Ok(content);
         }
 
         private static Bitmap GetBitmapFromBase64(string image)
