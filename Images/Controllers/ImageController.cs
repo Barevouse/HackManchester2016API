@@ -18,7 +18,7 @@ namespace Images.Controllers
         {
             var imagePath = System.Web.Hosting.HostingEnvironment.MapPath(@"~/App_Data/espionage.jpg");
             var bmp = new Bitmap(Image.FromFile(imagePath));
-            var img = Steganography.Embed(details.Username + ":" + details.Message, bmp);
+            var img = Steganography.Embed(details.Target + ":" + details.Message, bmp);
             var ms = new MemoryStream();
             img.Save(ms, ImageFormat.Png);
             var result = Convert.ToBase64String(ms.ToArray());
