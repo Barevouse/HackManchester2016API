@@ -14,7 +14,7 @@ namespace Images
         {
             using (WebClient client = new WebClient())
             {
-                var image = client.DownloadData("https://unsplash.it/400/300/?random");
+                var image = client.DownloadData("https://unsplash.it/506/506/?random");
                 var ms = new MemoryStream(image);
                 var bmp = new Bitmap(Image.FromStream(ms));
                 return bmp;

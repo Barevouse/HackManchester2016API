@@ -22,16 +22,8 @@ namespace Images.Controllers
             {
                 return BadRequest("Needs a Latitude and Longitude");    
             }
-            Bitmap bmp;
-            if (!string.IsNullOrEmpty(details.Image))
-            {
-                bmp = GetBitmapFromBase64(details.Image);
-            }
-            else
-            {
-                var imagePath = System.Web.Hosting.HostingEnvironment.MapPath(@"~/App_Data/espionage.jpg");
-                bmp = new Bitmap(Image.FromFile(imagePath));
-            }
+            var bmp = RandomImage.GetImage();
+
             var embedded = new EmbeddedDetails
             {
                 Message = details.Message,

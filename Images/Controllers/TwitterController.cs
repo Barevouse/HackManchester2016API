@@ -82,26 +82,32 @@ namespace Images.Controllers
 
                             var extracted = Steganography.Extract(bmp);
                             var decryptedMessage = Encryption.Decrypt(extracted);
-                            var embedded = new JavaScriptSerializer().Deserialize<EmbeddedDetails>(decryptedMessage);
-                            
-                            var currentLocation = new GeoCoordinate {Latitude = latitude, Longitude = longitude};
-                            var requiredLocation = new GeoCoordinate
+                            if (!string.IsNullOrEmpty(decryptedMessage))
                             {
-                                Latitude = embedded.Latitude,
-                                Longitude = embedded.Longitude
-                            };
-                            if (GeoLocation.WithinRadius(currentLocation, requiredLocation))
-                            {
-                                encrypted = true;
-                                statuses.Add(new Tweets
+                                var embedded = new JavaScriptSerializer().Deserialize<EmbeddedDetails>(decryptedMessage);
+
+                                var currentLocation = new GeoCoordinate
                                 {
-                                    Text = twitterStatus.Text,
-                                    ScreenName = twitterStatus.User.ScreenName,
-                                    Name = twitterStatus.User.Name,
-                                    MediaUrls = urls,
-                                    ProfileImageUrl = twitterStatus.User.ProfileImageUrl,
-                                    decryptedMessage = decryptedMessage
-                                });
+                                    Latitude = latitude, Longitude = longitude
+                                };
+                                var requiredLocation = new GeoCoordinate
+                                {
+                                    Latitude = embedded.Latitude,
+                                    Longitude = embedded.Longitude
+                                };
+                                if (GeoLocation.WithinRadius(currentLocation, requiredLocation))
+                                {
+                                    encrypted = true;
+                                    statuses.Add(new Tweets
+                                    {
+                                        Text = twitterStatus.Text,
+                                        ScreenName = twitterStatus.User.ScreenName,
+                                        Name = twitterStatus.User.Name,
+                                        MediaUrls = urls,
+                                        ProfileImageUrl = twitterStatus.User.ProfileImageUrl,
+                                        decryptedMessage = decryptedMessage
+                                    });
+                                }
                             }
 
                         }
@@ -118,7 +124,7 @@ namespace Images.Controllers
                 });
                }
 
-            return Ok(response);
+            return Ok(statuses);
         }
     }
 }
