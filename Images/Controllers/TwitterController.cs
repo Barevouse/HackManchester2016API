@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using TweetSharp;
 
 namespace Images.Controllers
@@ -12,27 +14,54 @@ namespace Images.Controllers
         [HttpPost]
         public IHttpActionResult SendTweet(TweetThing tweet)
         {
-            var twitter = new TwitterService();
+            var twitter = new TwitterService("lsoMiOYqptZ6MdxxTiM1sIsc7", "7x15u25SsTNKhXDG5hRrChV2P3zl3RzC0SxJPs6BMiBKzG1nzi");
 
             var bytes = Convert.FromBase64String(tweet.ImageContent);
             var ms = new MemoryStream(bytes, 0, bytes.Length);
 
             var dictionary = new Dictionary<string, Stream>();
             dictionary.Add("test", ms);
+            
 
-            var request = twitter.BeginSendTweetWithMedia(new SendTweetWithMediaOptions
+            twitter.SendTweetWithMedia(new SendTweetWithMediaOptions
             {
                 Status = tweet.Status,
                 Images = dictionary
             });
 
-            twitter.EndSendTweetWithMedia(ExecuteAsync(this.ControllerContext, CancellationToken.None));
-
             return Ok();
+        }
+        
+        [HttpGet]
+        public IHttpActionResult Login()
+        {
+            TwitterService service = new TwitterService("lsoMiOYqptZ6MdxxTiM1sIsc7", "7x15u25SsTNKhXDG5hRrChV2P3zl3RzC0SxJPs6BMiBKzG1nzi");
+   
+            OAuthRequestToken requestToken = service.GetRequestToken();
+
+            Uri uri = service.GetAuthorizationUri(requestToken);
+
+            Process.Start(uri.ToString());
+
+            string verifier = Console.ReadLine();
+
+            return Ok(service.GetAccessToken(requestToken, verifier));
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetFeed(string token, string tokenSecret)
+        {
+            TwitterService service = new TwitterService("lsoMiOYqptZ6MdxxTiM1sIsc7", "7x15u25SsTNKhXDG5hRrChV2P3zl3RzC0SxJPs6BMiBKzG1nzi");
+
+            service.AuthenticateWith(token, tokenSecret);
+
+            var response = service.ListTweetsOnHomeTimeline(new ListTweetsOnHomeTimelineOptions());
+
+            return Ok(response);
         }
     }
 
-    public class TweetThing
+    public class TweetImage
     {
         public string ImageContent { get; set; }
         public string Status { get; set; }
