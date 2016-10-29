@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 using Images.Models;
 
 namespace Images.Controllers
@@ -16,6 +17,10 @@ namespace Images.Controllers
             {
                 return BadRequest("Needs a Message");    
             }
+            if (details.Latitude == null || details.Longitude == null)
+            {
+                return BadRequest("Needs a Latitude and Longitude");    
+            }
             Bitmap bmp;
             if (!string.IsNullOrEmpty(details.Image))
             {
@@ -26,7 +31,14 @@ namespace Images.Controllers
                 var imagePath = System.Web.Hosting.HostingEnvironment.MapPath(@"~/App_Data/espionage.jpg");
                 bmp = new Bitmap(Image.FromFile(imagePath));
             }
-            var message = Encryption.Encrypt(details.Message);
+            var embedded = new EmbeddedDetails
+            {
+                Message = details.Message,
+                Latitude = details.Latitude.Value,
+                Longitude = details.Longitude.Value
+            };
+            var json = new JavaScriptSerializer().Serialize(embedded);
+            var message = Encryption.Encrypt(json);
             var img = Steganography.Embed(message, bmp);
             var result = GetBase64FromBitmap(img);
             return Ok(new CreatedImage { Image = result });
@@ -42,7 +54,8 @@ namespace Images.Controllers
             var bmp = GetBitmapFromBase64(details.Image);
             var extracted = Steganography.Extract(bmp);
             var decrypted = Encryption.Decrypt(extracted);
-            return Ok(new RetrievedMessage { Message = decrypted });
+            var embedded = new JavaScriptSerializer().Deserialize<EmbeddedDetails>(decrypted);
+            return Ok(embedded);
         }
 
         private static Bitmap GetBitmapFromBase64(string image)

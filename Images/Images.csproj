@@ -161,6 +161,7 @@
     <Compile Include="Encryption.cs" />
     <Compile Include="Models\CreatedImage.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Models\Details.cs" />
     <Compile Include="Models\ImageDetails.cs" />
     <Compile Include="Models\MessageDetails.cs" />
     <Compile Include="Models\RetrievedMessage.cs" />
