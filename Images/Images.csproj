@@ -158,7 +158,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Encryption.cs" />
+    <Compile Include="Models\CreatedImage.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Models\ImageDetails.cs" />
+    <Compile Include="Models\MessageDetails.cs" />
+    <Compile Include="Models\RetrievedMessage.cs" />
+    <Compile Include="Steganography.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TwitterController.cs" />
     <Compile Include="Global.asax.cs">
@@ -166,9 +172,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
