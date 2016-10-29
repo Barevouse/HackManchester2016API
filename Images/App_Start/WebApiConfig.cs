@@ -20,7 +20,7 @@ namespace Images
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;  
             config.Formatters.Add(new BrowserJsonFormatter());
         }
     }
