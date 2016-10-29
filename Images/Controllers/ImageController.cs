@@ -1,10 +1,12 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace Images.Controllers
 {
@@ -16,8 +18,13 @@ namespace Images.Controllers
             public string Message { get; set; }
         }
 
+        public class CreatedImage
+        {
+            public string Image { get; set; }
+        }
+
         [HttpPost]
-        public HttpResponseMessage Create(CreateImage details)
+        public IHttpActionResult Create(CreateImage details)
         {
             var imagePath = System.Web.Hosting.HostingEnvironment.MapPath(@"~/App_Data/espionage.jpg");
             var bmp = new Bitmap(Image.FromFile(imagePath));
@@ -31,15 +38,10 @@ namespace Images.Controllers
                 }
             }
 
-            var img = Image.FromHbitmap(bmp.GetHbitmap());
             var ms = new MemoryStream();
-            img.Save(ms, ImageFormat.Png);
-            var result = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new ByteArrayContent(ms.ToArray())
-            };
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-            return result;
+            bmp.Save(ms, ImageFormat.Png);
+            var result = Convert.ToBase64String(ms.ToArray());
+            return Ok(new CreatedImage { Image = result });
         }       
     }
 }
