@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using TweetSharp;
 
@@ -13,6 +9,7 @@ namespace Images.Controllers
 {
     public class TwitterController : ApiController
     {
+        [HttpPost]
         public IHttpActionResult SendTweet(TweetThing tweet)
         {
             var twitter = new TwitterService();
@@ -23,11 +20,13 @@ namespace Images.Controllers
             var dictionary = new Dictionary<string, Stream>();
             dictionary.Add("test", ms);
 
-            twitter.BeginSendTweetWithMedia(new SendTweetWithMediaOptions
+            var request = twitter.BeginSendTweetWithMedia(new SendTweetWithMediaOptions
             {
                 Status = tweet.Status,
                 Images = dictionary
             });
+
+            twitter.EndSendTweetWithMedia(ExecuteAsync(this.ControllerContext, CancellationToken.None));
 
             return Ok();
         }
