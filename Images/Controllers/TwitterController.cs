@@ -21,7 +21,9 @@ namespace Images.Controllers
 
             var dictionary = new Dictionary<string, Stream>();
             dictionary.Add("test", ms);
-            
+
+            twitter.AuthenticateWith(tweet.Token, tweet.TokenSecret);
+
 
             twitter.SendTweetWithMedia(new SendTweetWithMediaOptions
             {
@@ -30,22 +32,6 @@ namespace Images.Controllers
             });
 
             return Ok();
-        }
-        
-        [HttpGet]
-        public IHttpActionResult Login()
-        {
-            TwitterService service = new TwitterService("lsoMiOYqptZ6MdxxTiM1sIsc7", "7x15u25SsTNKhXDG5hRrChV2P3zl3RzC0SxJPs6BMiBKzG1nzi");
-   
-            OAuthRequestToken requestToken = service.GetRequestToken();
-
-            Uri uri = service.GetAuthorizationUri(requestToken);
-
-            Process.Start(uri.ToString());
-
-            string verifier = Console.ReadLine();
-
-            return Ok(service.GetAccessToken(requestToken, verifier));
         }
 
         [HttpGet]
@@ -65,5 +51,7 @@ namespace Images.Controllers
     {
         public string ImageContent { get; set; }
         public string Status { get; set; }
+        public string Token { get; set; }
+        public string TokenSecret { get; set; }
     }
 }
