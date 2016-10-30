@@ -9,7 +9,7 @@ namespace Twitspionage
         public static bool WithinRadius(GeoCoordinate currentLocation, GeoCoordinate requiredLocation)
         {
             var distanceInMetres = currentLocation.GetDistanceTo(requiredLocation);
-            return distanceInMetres / MilesInMetres <= 5;
+            return distanceInMetres / MilesInMetres <= 0.5;
         }
     }
 }
