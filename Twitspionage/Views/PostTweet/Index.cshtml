@@ -106,8 +106,8 @@
                         success: success
                     });
                     function success(e) {
-                        lat.val(e.lat);
-                        lon.val(e.lon);
+                        lat[0].parentNode.MaterialTextfield.change(e.lat);
+                        lon[0].parentNode.MaterialTextfield.change(e.lon);
 
                         if (componentHandler != null) {
                             componentHandler.upgradeAllRegistered();
