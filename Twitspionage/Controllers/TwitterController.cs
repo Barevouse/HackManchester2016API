@@ -136,7 +136,7 @@ namespace Twitspionage.Controllers
 
                         if (embedded.FinalMystery != null)
                         {
-                            if(embedded.FinalMystery.Equals(guessAnswer.Guess))
+                            if(embedded.FinalMystery.ToLower().Equals(guessAnswer.Guess.ToLower()))
                             {
                                 result = true;
                             }
