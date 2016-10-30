@@ -15,8 +15,13 @@
         @Html.AntiForgeryToken()
 
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            @Html.TextBoxFor(model => model.Name, new { @class = "mdl-textfield__input" })
-            @Html.LabelFor(model => model.Name, new { @class = "mdl-textfield__label" })
+            @Html.TextBoxFor(model => model.Name, new {@class = "mdl-textfield__input"})
+            @Html.LabelFor(model => model.Name, new {@class = "mdl-textfield__label"})
+        </div>
+
+        <div class="mdl-textfield">
+            <input class="mdl-textfield__input" type="text" id="clue" readonly="readonly">
+            <label class="mdl-textfield__label" for="clue">Complete answer (from each clue)</label>
         </div>
 
         @foreach (var clueDetail in Model.Clues)
@@ -92,6 +97,24 @@
             clueTitles.each(function(key, value) {
                 $(value).text('Clue ' + (key + 1));
             });
+
+            var clues = $('.msg');
+            clues.change(mergeClues);
+
+            function mergeClues() {
+                var clue = $('#clue');
+                clue.val('');
+                clues.each(function (key, value) {
+                    clue.val(clue.val() + " " + $(value).val().toLowerCase());
+                });
+                var classes = 'is-upgraded is-dirty mdl-textfield--floating-label';
+                if (clue.val() == null || clue.val().trim() === '') {
+                    clue.parent().removeClass(classes);
+                } else {
+                    clue.parent().addClass(classes);
+                }
+            }
+
             if (componentHandler != null) {
                 componentHandler.upgradeAllRegistered();
             }
