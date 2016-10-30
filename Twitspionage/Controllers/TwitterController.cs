@@ -176,7 +176,7 @@ namespace Twitspionage.Controllers
 
                 service.SendTweet(new SendTweetOptions
                 {
-                    Status = $"@{guessAnswer.Screenname} mission '{missionName}' accomplished!",
+                    Status = $"{guessAnswer.Screenname} mission '{missionName}' accomplished!",
 
                 });
 
