@@ -3,6 +3,11 @@
 }
 
 .mdl-layout__content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.mdl-layout__content {
     padding: 0 32px;
 }
 
@@ -22,9 +27,9 @@
 }
 
 .mdl-button--fab {
-    position: fixed;
-    right: 12px;
-    bottom: 12px;
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
     z-index: 1;
 }
 
