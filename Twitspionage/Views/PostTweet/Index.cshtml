@@ -1,5 +1,32 @@
-﻿@{
+﻿@model Images.Models.MessageDetails
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 @ViewData["Username"]
+
+<h2>Tweet clue</h2>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div>
+            @Html.LabelFor(model => model.Latitude)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Latitude)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Longitude)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Longitude)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Message)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Message)
+        </div>
+        <input type="submit" value="Tweet"/>
+    </fieldset>
+}

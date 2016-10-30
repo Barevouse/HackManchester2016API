@@ -26,7 +26,7 @@ namespace Images
                 var decryptedArray = TransformArray(decrypter, textArray, cryptoProvider);
                 return Encoding.UTF8.GetString(decryptedArray);
             }
-            catch (FormatException)
+            catch (Exception)
             {
                 return string.Empty;
             }

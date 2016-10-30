@@ -160,6 +160,7 @@
     <Compile Include="Controllers\PostTweetController.cs" />
     <Compile Include="Controllers\TwitterController.cs" />
     <Compile Include="Encryption.cs" />
+    <Compile Include="EncryptionService.cs" />
     <Compile Include="GeoLocation.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -183,6 +184,7 @@
     </Content>
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PostTweet\Index.cshtml" />
+    <Content Include="Views\PostTweet\Success.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
