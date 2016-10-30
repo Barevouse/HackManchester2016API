@@ -26,7 +26,7 @@ namespace Twitspionage.Controllers
 
             var embedded = new EmbeddedDetails
             {
-                Message = detail.Clue,
+                Clue = detail.Clue,
                 Latitude = detail.Latitude.Value,
                 Longitude = detail.Longitude.Value
             };

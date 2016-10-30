@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Twitspionage.Models.ClueDetail>
+﻿@using Twitspionage.Models
+@model Twitspionage.Models.MysteryDetail
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,9 +15,9 @@
 {
     <div id="mystery">
         @Html.AntiForgeryToken()
-        @foreach (var details in Model)
+        @foreach (var clueDetail in Model.Clues)
         {
-            Html.RenderPartial("_Tweet", details);
+            Html.RenderPartial("_Tweet", clueDetail);
         }
     </div>
     @Html.ActionLink("Add another...", "NewClueDetail", null, new {id = "addItem"})

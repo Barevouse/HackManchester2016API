@@ -1,14 +1,23 @@
-﻿using Hammock.Attributes.Validation;
+﻿using System.Collections.Generic;
+using Hammock.Attributes.Validation;
 
 namespace Twitspionage.Models
 {
+    public class MysteryDetail
+    {
+        public IEnumerable<ClueDetail> Clues { get; set; }
+        public string Name { get; set; }
+
+        public MysteryDetail()
+        {
+            Clues = new List<ClueDetail> { new ClueDetail() };
+        }
+    }
     public class ClueDetail
     {
-        [Required]
         public string Clue { get; set; }
-        [Required]
+        public string Mystery { get; set; }
         public double? Latitude { get; set; }
-        [Required]
         public double? Longitude { get; set; }
     }
 }

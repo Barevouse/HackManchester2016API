@@ -54,31 +54,32 @@ namespace Twitspionage.Controllers
             if(profile == null) return RedirectToAction("Index", "PostTweet", new {});
 
             ViewBag.Title = "Create Mystery";
-            return View(new List<ClueDetail> { new ClueDetail() });
+            return View(new MysteryDetail());
         }
 
         [HttpPost]
-        public ActionResult Index(IEnumerable<ClueDetail> clueDetails)
+        public ActionResult Index(MysteryDetail mysteryDetail)
         {
+            if(string.IsNullOrWhiteSpace(mysteryDetail.Name))
+            {
+                return Error(mysteryDetail, "Please ensure all details are filled in.");
+            }
+            var details = mysteryDetail.Clues as IList<ClueDetail> ?? mysteryDetail.Clues.ToList();
+            if (details.Any(clueDetail => string.IsNullOrWhiteSpace(clueDetail.Clue) || clueDetail.Latitude == null || clueDetail.Longitude == null))
+            {
+                return Error(mysteryDetail, "Please ensure all details are filled in.");
+            }
+
             var service = CreateTwitterService();
 
             var token = TempData["token"];
             var tokenSecret = TempData["tokenSecret"];
 
             service.AuthenticateWith(token.ToString(), tokenSecret.ToString());
-
-
-            var details = clueDetails as IList<ClueDetail> ?? clueDetails.ToList();
-
-            if (details.Any(clueDetail => string.IsNullOrEmpty(clueDetail.Clue) || clueDetail.Latitude == null || clueDetail.Longitude == null))
-            {
-                TempData["Error"] = "Please ensure all details are filled in.";
-                return View("Index", clueDetails);
-            }
-
+            
             foreach (var clueDetail in details)
             {
-                var image = EncryptionService.GetImage(clueDetail);
+                var image = EncryptionService.GetImage(clueDetail, mysteryDetail);
                 var ms = new MemoryStream();
                 image.Save(ms, ImageFormat.Png);
                 ms.Seek(0, SeekOrigin.Begin);
@@ -89,10 +90,16 @@ namespace Twitspionage.Controllers
                 });
 
                 if (service.Response.StatusCode == HttpStatusCode.OK && service.Response.Error == null) continue;
-                TempData["Error"] = "Error tweeting clues. Please check your Twitter account and repost any that are missing.";
-                return View("Index", clueDetails);
+
+                return Error(mysteryDetail, "Error tweeting clues. Please check your Twitter account and repost any that are missing.");
             }
             return View("Success");
+        }
+
+        private ActionResult Error(MysteryDetail mysteryDetail, string errorMessage)
+        {
+            TempData["Error"] = errorMessage;
+            return View("Index", mysteryDetail);
         }
 
         public ViewResult NewClueDetail()
