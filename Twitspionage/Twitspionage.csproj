@@ -185,6 +185,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PostTweet\Index.cshtml" />
     <Content Include="Views\PostTweet\Success.cshtml" />
+    <None Include="Views\PostTweet\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

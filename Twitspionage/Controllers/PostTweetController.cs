@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Hammock.Authentication.OAuth;
@@ -74,11 +75,13 @@ namespace Twitspionage.Controllers
 
             service.SendTweetWithMedia(new SendTweetWithMediaOptions
             {
-                Status = "Twitspionage Clue",
-                Images = new Dictionary<string, Stream> { { "Clue", ms } }
+                Status = "#twitspionage clue",
+                Images = new Dictionary<string, Stream> { { "Twitspionage clue", ms } }
             });
 
-            return View("Success");
+            return service.Response.StatusCode == HttpStatusCode.OK && service.Response.Error != null
+                ? View("Success")
+                : View("Error");
         }
 
         private static TwitterService CreateTwitterService()
