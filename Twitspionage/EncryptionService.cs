@@ -18,7 +18,7 @@ namespace Twitspionage
 
             var embedded = new EmbeddedDetails
             {
-                Message = detail.Message,
+                Message = detail.Clue,
                 Latitude = detail.Latitude.Value,
                 Longitude = detail.Longitude.Value
             };

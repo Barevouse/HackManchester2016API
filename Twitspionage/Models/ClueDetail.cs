@@ -1,9 +1,14 @@
-﻿namespace Twitspionage.Models
+﻿using Hammock.Attributes.Validation;
+
+namespace Twitspionage.Models
 {
     public class ClueDetail
     {
-        public string Message { get; set; }
+        [Required]
+        public string Clue { get; set; }
+        [Required]
         public double? Latitude { get; set; }
+        [Required]
         public double? Longitude { get; set; }
     }
 }

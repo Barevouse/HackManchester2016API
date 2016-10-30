@@ -14,9 +14,9 @@ namespace Twitspionage.Controllers
         [HttpPost, Route("api/image/create")]
         public IHttpActionResult Create(ClueDetail detail)
         {
-            if (string.IsNullOrEmpty(detail.Message))
+            if (string.IsNullOrEmpty(detail.Clue))
             {
-                return BadRequest("Needs a Message");    
+                return BadRequest("Needs a Clue");    
             }
             if (detail.Latitude == null || detail.Longitude == null)
             {
@@ -26,7 +26,7 @@ namespace Twitspionage.Controllers
 
             var embedded = new EmbeddedDetails
             {
-                Message = detail.Message,
+                Message = detail.Clue,
                 Latitude = detail.Latitude.Value,
                 Longitude = detail.Longitude.Value
             };
