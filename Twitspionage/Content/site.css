@@ -48,6 +48,22 @@
     float: left;
 }
 
-.fieldset {
-    clear: right;
+fieldset {
+    clear: both;
+}
+
+#blurb {
+    max-width: 50%;
+    float: right;
+}
+
+h3 {
+    padding-top: 18px;
+}
+
+@media screen and (max-width: 900px) {
+    .fields, .map, #blurb {
+        float: none;
+        max-width: 100%;
+    }
 }

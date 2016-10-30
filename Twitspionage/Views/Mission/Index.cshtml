@@ -4,10 +4,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Create a Mission</h3>
-
 @using (Html.BeginForm())
 {
+    <div id="blurb">
+        <h5>How to play</h5>
+        <p>Create a mission name and begin thinking of your clues. The other players will be trying work out the special message you have split amongst each of your locations. The clue should point them to the next location in the list. Think about the ordering and how your friends will work each location out. But don't worry, to everyone else you are just posting scenic images to Twitter.</p>
+    </div>
+    <h3>Create a Mission</h3>
     <div id="mystery">
         @Html.AntiForgeryToken()
 
@@ -85,7 +88,7 @@
                     $('#error').html('');
                 });
             }
-            var clueTitles = $('h4');
+            var clueTitles = $('#mystery h4');
             clueTitles.each(function(key, value) {
                 $(value).text('Clue ' + (key + 1));
             });
