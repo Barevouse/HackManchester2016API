@@ -54,7 +54,7 @@ namespace Twitspionage.Controllers
             
             if(profile == null) return RedirectToAction("Index", "PostTweet", new {});
 
-            ViewBag.Title = "Create Mystery";
+            ViewBag.Title = "Create Mission";
             return View(new MysteryDetail());
         }
 

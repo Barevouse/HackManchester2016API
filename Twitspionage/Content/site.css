@@ -1,5 +1,8 @@
-﻿.mdl-layout__content {
+﻿body {
     background-color: #EFEFEF;
+}
+
+.mdl-layout__content {
     padding: 0 32px;
 }
 
@@ -14,6 +17,21 @@
     margin-bottom: 10px;
 }
 
-.mdl-textfield, input[type="submit"] {
+.mdl-textfield, .submit {
     display: block;
+}
+
+.mdl-button--fab {
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    z-index: 1;
+}
+
+.mdl-progress {
+    width: calc(100% - 140px);
+    position: fixed;
+    top: 50%;
+    left: 0;
+    margin: 0 60px;
 }

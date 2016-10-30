@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Tweet clue</h3>
+<h3>Create a Mission</h3>
 
 <div class="hidden">
     <span id="currentLat"></span>
@@ -20,9 +20,12 @@
             Html.RenderPartial("_Tweet", clueDetail);
         }
     </div>
-    @Html.ActionLink("Add", "NewClueDetail", null, new {id = "addItem", @class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"})
-    <input class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" type="submit" value="Tweet"/>
+    @Html.ActionLink("Add", "NewClueDetail", null, new {id = "addItem", @class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"})
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored submit">
+        <i class="material-icons">send</i>
+    </button>
 }
+<div class="mdl-progress mdl-js-progress mdl-progress__indeterminate" style="display: none;"></div>
 
 <script type="text/javascript">
     if (navigator != null && navigator.geolocation != null) {
@@ -46,6 +49,12 @@
             });
             return false;
         });
+
+    $('.submit').click(function() {
+        $('.mdl-progress').show();
+        $('form').submit();
+        $('form').hide();
+    });
 
     function setupFields() {
         var elements = $(".deleteRow");
