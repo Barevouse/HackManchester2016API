@@ -103,11 +103,11 @@ namespace Twitspionage.Controllers
             var consumerSecret = settingsReader.GetValue("TwitterSecret", typeof(string)).ToString();
             var service = new TwitterService(consumerKey, consumerSecret);
 
-            service.AuthenticateWith(guessAnswer.token, guessAnswer.tokenSecret);
+            service.AuthenticateWith(guessAnswer.Token, guessAnswer.TokenSecret);
 
             var response = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
             {
-                ScreenName = guessAnswer.screenname
+                ScreenName = guessAnswer.Screenname
             }) ?? new List<TwitterStatus>();
 
             var statuses = new List<Tweets>();
@@ -136,7 +136,7 @@ namespace Twitspionage.Controllers
 
                         if (embedded.FinalMystery != null)
                         {
-                            if(embedded.FinalMystery.Equals(guessAnswer.guess))
+                            if(embedded.FinalMystery.ToLower().Equals(guessAnswer.Guess.ToLower()))
                             {
                                 result = true;
                             }
@@ -146,11 +146,11 @@ namespace Twitspionage.Controllers
             }
             if (result)
             {
-                service.AuthenticateWith(guessAnswer.token, guessAnswer.tokenSecret);
+                service.AuthenticateWith(guessAnswer.Token, guessAnswer.TokenSecret);
 
                 service.SendTweet(new SendTweetOptions
                 {
-                    Status = $"@{guessAnswer.screenname} mission accomplished!",
+                    Status = $"@{guessAnswer.Screenname} mission accomplished!",
 
                 });
 
@@ -166,9 +166,9 @@ namespace Twitspionage.Controllers
 
     public class GuessAnswer
     {
-        public string token { get; set; }
-        public string tokenSecret { get; set; }
-        public string screenname { get; set; }
-        public string guess { get; set; }
+        public string Token { get; set; }
+        public string TokenSecret { get; set; }
+        public string Screenname { get; set; }
+        public string Guess { get; set; }
     }
 }
