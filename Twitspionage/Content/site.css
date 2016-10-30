@@ -23,8 +23,8 @@
 
 .mdl-button--fab {
     position: fixed;
-    right: 5px;
-    bottom: 5px;
+    right: 12px;
+    bottom: 12px;
     z-index: 1;
 }
 
