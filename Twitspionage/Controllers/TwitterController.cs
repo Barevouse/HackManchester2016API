@@ -15,6 +15,29 @@ namespace Twitspionage.Controllers
     public class TwitterController : ApiController
     {
         [HttpGet]
+        public IHttpActionResult GetFollowing(string token, string tokenSecret)
+        {
+
+            var settingsReader = new AppSettingsReader();
+            var consumerKey = settingsReader.GetValue("TwitterKey", typeof(string)).ToString();
+            var consumerSecret = settingsReader.GetValue("TwitterSecret", typeof(string)).ToString();
+            var service = new TwitterService(consumerKey, consumerSecret);
+
+            service.AuthenticateWith(token, tokenSecret);
+
+            var following = service.ListFriends(new ListFriendsOptions());
+
+            if (following == null) return Ok(new List<FollowingUser>());
+
+            var users = following.Select(user => new FollowingUser
+            {
+                ScreenName = user.ScreenName, Name = user.Name, ProfileImageUrl = user.ProfileImageUrl
+            }).ToList();
+
+            return Ok(users);
+        }
+
+        [HttpGet]
         public IHttpActionResult GetFeedPath(string token, string tokenSecret, double latitude, double longitude,
             string screenname)
         {
