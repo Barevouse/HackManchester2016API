@@ -147,7 +147,7 @@ namespace Twitspionage.Controllers
 
                 service.SendTweet(new SendTweetOptions
                 {
-                    Status = $"@{screenname} I have defeated your devilish challenge, try harder next time",
+                    Status = $"@{screenname} mission accomplished!",
 
                 });
 
@@ -157,7 +157,7 @@ namespace Twitspionage.Controllers
                 });
             }
 
-            return Ok(new GuessResult {message = "Stop trying to guess"});
+            return Ok(new GuessResult {message = "Incorrect, try again."});
         }
     }
 }

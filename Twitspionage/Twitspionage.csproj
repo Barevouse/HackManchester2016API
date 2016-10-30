@@ -213,6 +213,7 @@
     </Compile>
     <Compile Include="Models\CreatedImage.cs" />
     <Compile Include="Models\Details.cs" />
+    <Compile Include="Models\GuessResult.cs" />
     <Compile Include="Models\ImageDetail.cs" />
     <Compile Include="Models\ClueDetail.cs" />
     <Compile Include="Models\RetrievedMessage.cs" />
