@@ -1,0 +1,19 @@
+﻿.mdl-layout__content {
+    background-color: #EFEFEF;
+    padding: 0 32px;
+}
+
+.mdl-layout__header {
+    box-sizing: border-box;
+    background-position: 32px 15px;
+    background-repeat: no-repeat;
+    background-image: url(https://getmdl.io/assets/components.png);
+}
+
+* + .mdl-textfield, * + .mdl-button {
+    margin-bottom: 10px;
+}
+
+.mdl-textfield, input[type="submit"] {
+    display: block;
+}

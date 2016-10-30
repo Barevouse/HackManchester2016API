@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Tweet clue</h2>
+<h3>Tweet clue</h3>
 
 <div class="hidden">
     <span id="currentLat"></span>
@@ -20,8 +20,8 @@
             Html.RenderPartial("_Tweet", clueDetail);
         }
     </div>
-    @Html.ActionLink("Add another...", "NewClueDetail", null, new {id = "addItem"})
-    <input type="submit" value="Tweet"/>
+    @Html.ActionLink("Add", "NewClueDetail", null, new {id = "addItem", @class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"})
+    <input class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" type="submit" value="Tweet"/>
 }
 
 <script type="text/javascript">
@@ -41,17 +41,23 @@
                 cache: false,
                 success: function (html) {
                     $("#mystery").append(html);
-                    setupDelete();
+                    setupFields();
                 }
             });
             return false;
         });
 
-    function setupDelete() {
-        $("a.deleteRow")
+    function setupFields() {
+        var elements = $(".deleteRow");
+        elements.length > 1 ? elements.show() : elements.hide();
+        elements
             .click(function() {
                 $(this).parents("fieldset:first").remove();
+                setupFields();
                 return false;
             });
+        if (componentHandler != null) {
+            componentHandler.upgradeAllRegistered();
+        }
     }
 </script>

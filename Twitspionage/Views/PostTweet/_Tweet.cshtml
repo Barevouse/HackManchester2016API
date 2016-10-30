@@ -3,31 +3,23 @@
 <fieldset>
     @using (Html.BeginCollectionItem("Clues"))
     {
-        <div>
-            @Html.LabelFor(model => model.Clue)
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            @Html.TextBoxFor(model => model.Clue, new { @class = "mdl-textfield__input" })
+            @Html.LabelFor(model => model.Clue, new { @class = "mdl-textfield__label" })
         </div>
-        <div>
-            @Html.TextBoxFor(model => model.Clue)
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            @Html.TextBoxFor(model => model.Message, new { @class = "mdl-textfield__input" })
+            @Html.LabelFor(model => model.Message, new { @class = "mdl-textfield__label" })
         </div>
-        <div>
-            @Html.LabelFor(model => model.Message)
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            @Html.TextBoxFor(model => model.Latitude, new { @class = "mdl-textfield__input" })
+            @Html.LabelFor(model => model.Latitude, new { @class = "mdl-textfield__label" })
         </div>
-        <div>
-            @Html.TextBoxFor(model => model.Message)
-        </div>
-        <div>
-            @Html.LabelFor(model => model.Latitude)
-        </div>
-        <div>
-            @Html.TextBoxFor(model => model.Latitude)
-        </div>
-        <div>
-            @Html.LabelFor(model => model.Longitude)
-        </div>
-        <div>
-            @Html.TextBoxFor(model => model.Longitude)
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            @Html.TextBoxFor(model => model.Longitude, new { @class = "mdl-textfield__input" })
+            @Html.LabelFor(model => model.Longitude, new { @class = "mdl-textfield__label" })
         </div>
         <div class="map"></div>
-        <a class="deleteRow">Delete</a>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent deleteRow" style="display: none;">Delete</button>
     }
 </fieldset>
