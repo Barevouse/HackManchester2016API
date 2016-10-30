@@ -35,3 +35,19 @@
     left: 0;
     margin: 0 60px;
 }
+
+.map {
+    float: right;
+    margin: 12px;
+    max-width: 500px;
+    width: 100%;
+    height: 250px;
+}
+
+.fields {
+    float: left;
+}
+
+.fieldset {
+    clear: right;
+}

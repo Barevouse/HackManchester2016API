@@ -6,11 +6,6 @@
 
 <h3>Create a Mission</h3>
 
-<div class="hidden">
-    <span id="currentLat"></span>
-    <span id="currentLon"></span>
-</div>
-
 @using (Html.BeginForm())
 {
     <div id="mystery">
@@ -36,11 +31,13 @@
 <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate" style="display: none;"></div>
 
 <script type="text/javascript">
-    $(function() {
+    $(function () {
+        var currentLat, currentLon;
         if (navigator != null && navigator.geolocation != null) {
             navigator.geolocation.getCurrentPosition(function(position) {
-                    $('#currentLat').html(position.coords.latitude);
-                    $('#currentLon').html(position.coords.longitude);
+                    currentLat = position.coords.latitude;
+                    currentLon = position.coords.longitude;
+                    setupFields();
                 },
                 function(position) {
                     console.log('Error getting location: ' + position.code);
@@ -85,8 +82,39 @@
             if (componentHandler != null) {
                 componentHandler.upgradeAllRegistered();
             }
-        }
 
-        setupFields();
+            var maps = $('.map');
+            maps.each(function (key, value) {
+                var lat = $(value).parent('fieldset').find('.lat');
+                var lon = $(value).parent('fieldset').find('.lon');
+                var mapElem = $(value).html();
+                if (mapElem == null || mapElem.trim() === '') {
+                    createMap();
+                }
+                lat.change(createMap);
+                lon.change(createMap);
+                function createMap() {
+                    var latitude = lat.val() != null && lat.val() !== '' ? lat.val() : currentLat;
+                    var longitude = lon.val() != null && lon.val() !== '' ? lon.val() : currentLon;
+                    success({ lat: latitude, lon: longitude });
+                    $(value).googleMap({
+                        coords: [latitude, longitude]
+                    });
+                    $(value).addMarker({
+                        coords: [latitude, longitude],
+                        draggable: true,
+                        success: success
+                    });
+                    function success(e) {
+                        lat.val(e.lat);
+                        lon.val(e.lon);
+
+                        if (componentHandler != null) {
+                            componentHandler.upgradeAllRegistered();
+                        }
+                    }
+                }
+            });
+        }
     });
 </script>

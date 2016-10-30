@@ -3,23 +3,25 @@
 <fieldset>
     @using (Html.BeginCollectionItem("Clues"))
     {
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            @Html.TextBoxFor(model => model.Clue, new { @class = "mdl-textfield__input" })
-            @Html.LabelFor(model => model.Clue, new { @class = "mdl-textfield__label" })
-        </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            @Html.TextBoxFor(model => model.Message, new { @class = "mdl-textfield__input" })
-            @Html.LabelFor(model => model.Message, new { @class = "mdl-textfield__label" })
-        </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            @Html.TextBoxFor(model => model.Latitude, new { @class = "mdl-textfield__input" })
-            @Html.LabelFor(model => model.Latitude, new { @class = "mdl-textfield__label" })
-        </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            @Html.TextBoxFor(model => model.Longitude, new { @class = "mdl-textfield__input" })
-            @Html.LabelFor(model => model.Longitude, new { @class = "mdl-textfield__label" })
+        <div class="fields">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                @Html.TextBoxFor(model => model.Clue, new { @class = "mdl-textfield__input" })
+                @Html.LabelFor(model => model.Clue, new { @class = "mdl-textfield__label" })
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                @Html.TextBoxFor(model => model.Message, new { @class = "mdl-textfield__input" })
+                @Html.LabelFor(model => model.Message, new { @class = "mdl-textfield__label" })
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                @Html.TextBoxFor(model => model.Latitude, new { @class = "mdl-textfield__input lat" })
+                @Html.LabelFor(model => model.Latitude, new { @class = "mdl-textfield__label" })
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                @Html.TextBoxFor(model => model.Longitude, new { @class = "mdl-textfield__input lon" })
+                @Html.LabelFor(model => model.Longitude, new { @class = "mdl-textfield__label" })
+            </div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored deleteRow" style="display: none;">Delete</button>
         </div>
         <div class="map"></div>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored deleteRow" style="display: none;">Delete</button>
     }
 </fieldset>

@@ -192,6 +192,7 @@
     <Content Include="scripts\jquery-3.1.1.slim.js" />
     <Content Include="scripts\jquery-3.1.1.slim.min.js" />
     <None Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery.googlemap.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\jquery.validate.js" />
