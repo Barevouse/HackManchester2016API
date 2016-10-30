@@ -10,7 +10,7 @@
     box-sizing: border-box;
     background-position: 32px 15px;
     background-repeat: no-repeat;
-    background-image: url(https://getmdl.io/assets/components.png);
+    background-image: url(/content/header.png);
 }
 
 * + .mdl-textfield, * + .mdl-button, .mdl-chip {

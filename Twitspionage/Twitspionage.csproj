@@ -152,10 +152,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="android-icon-144x144.png" />
+    <Content Include="android-icon-192x192.png" />
+    <Content Include="android-icon-36x36.png" />
+    <Content Include="android-icon-48x48.png" />
+    <Content Include="android-icon-72x72.png" />
+    <Content Include="android-icon-96x96.png" />
+    <Content Include="apple-icon-114x114.png" />
+    <Content Include="apple-icon-120x120.png" />
+    <Content Include="apple-icon-144x144.png" />
+    <Content Include="apple-icon-152x152.png" />
+    <Content Include="apple-icon-180x180.png" />
+    <Content Include="apple-icon-57x57.png" />
+    <Content Include="apple-icon-60x60.png" />
+    <Content Include="apple-icon-72x72.png" />
+    <Content Include="apple-icon-76x76.png" />
+    <Content Include="apple-icon-precomposed.png" />
+    <Content Include="apple-icon.png" />
+    <Content Include="browserconfig.xml" />
+    <Content Include="Content\full-logo.png" />
+    <Content Include="Content\header.png" />
+    <Content Include="Content\logo.png" />
     <Content Include="Content\site.css" />
+    <Content Include="favicon-16x16.png" />
+    <Content Include="favicon-32x32.png" />
+    <Content Include="favicon-96x96.png" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="ms-icon-144x144.png" />
+    <Content Include="ms-icon-150x150.png" />
+    <Content Include="ms-icon-310x310.png" />
+    <Content Include="ms-icon-70x70.png" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
     <Content Include="scripts\ai.0.22.19-build00125.min.js" />
+    <Content Include="manifest.json" />
     <None Include="scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="scripts\jquery-3.1.1.js" />
     <Content Include="scripts\jquery-3.1.1.min.js" />
