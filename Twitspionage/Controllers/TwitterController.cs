@@ -50,7 +50,8 @@ namespace Twitspionage.Controllers
 
             var response = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
             {
-                ScreenName = screenname
+                ScreenName = screenname,
+                Count = 10
             }) ?? new List<TwitterStatus>();
 
             var statuses = new List<Tweets>();
