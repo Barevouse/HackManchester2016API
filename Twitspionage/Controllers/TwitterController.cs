@@ -15,7 +15,7 @@ namespace Twitspionage.Controllers
     public class TwitterController : ApiController
     {
         [HttpGet]
-        public IHttpActionResult GetFeedPath(string token, string tokenSecret, double latitude, double longitude)
+        public IHttpActionResult GetFeedPath(string token, string tokenSecret, double latitude, double longitude, string screenname)
         {
             var settingsReader = new AppSettingsReader();
             var consumerKey = settingsReader.GetValue("TwitterKey", typeof(string)).ToString();
@@ -26,8 +26,7 @@ namespace Twitspionage.Controllers
 
             var response = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
             {
-                ScreenName = "Barevouse",
-                Count = 10
+                ScreenName = screenname
             }) ?? new List<TwitterStatus>();
             
             var statuses = new List<Tweets>();
