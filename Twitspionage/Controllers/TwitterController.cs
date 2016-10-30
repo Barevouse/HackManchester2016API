@@ -15,7 +15,8 @@ namespace Twitspionage.Controllers
     public class TwitterController : ApiController
     {
         [HttpGet]
-        public IHttpActionResult GetFeedPath(string token, string tokenSecret, double latitude, double longitude, string screenname)
+        public IHttpActionResult GetFeedPath(string token, string tokenSecret, double latitude, double longitude,
+            string screenname)
         {
             var settingsReader = new AppSettingsReader();
             var consumerKey = settingsReader.GetValue("TwitterKey", typeof(string)).ToString();
@@ -28,7 +29,7 @@ namespace Twitspionage.Controllers
             {
                 ScreenName = screenname
             }) ?? new List<TwitterStatus>();
-            
+
             var statuses = new List<Tweets>();
 
             foreach (var twitterStatus in response)
@@ -91,6 +92,72 @@ namespace Twitspionage.Controllers
             }
 
             return Ok(statuses);
+        }
+
+        [HttpPost]
+        public IHttpActionResult GuessAnswer(string token, string tokenSecret, string screenname, string guess)
+        {
+
+            var settingsReader = new AppSettingsReader();
+            var consumerKey = settingsReader.GetValue("TwitterKey", typeof(string)).ToString();
+            var consumerSecret = settingsReader.GetValue("TwitterSecret", typeof(string)).ToString();
+            var service = new TwitterService(consumerKey, consumerSecret);
+
+            service.AuthenticateWith(token, tokenSecret);
+
+            var response = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
+            {
+                ScreenName = screenname
+            }) ?? new List<TwitterStatus>();
+
+            var statuses = new List<Tweets>();
+
+
+            var result = false;
+            foreach (var twitterStatus in response)
+            {
+                if (twitterStatus.Entities == null) continue;
+                var urls = twitterStatus.Entities.Media.Select(rawLinks => rawLinks.MediaUrl).ToList();
+                foreach (var media in twitterStatus.Entities.Media)
+                {
+                    if (media.MediaType != TwitterMediaType.Photo) continue;
+
+                    using (var client = new WebClient())
+                    {
+                        var image = client.DownloadData(media.MediaUrl);
+                        var ms = new MemoryStream(image);
+                        var bmp = new Bitmap(Image.FromStream(ms));
+
+                        var extracted = Steganography.Extract(bmp);
+                        var decryptedMessage = Encryption.Decrypt(extracted);
+                        if (string.IsNullOrEmpty(decryptedMessage)) continue;
+
+                        var embedded = new JavaScriptSerializer().Deserialize<EmbeddedDetails>(decryptedMessage);
+
+                        if (embedded.FinalMystery.Equals(guess))
+                        {
+                            result = true;
+                        }
+                    }
+                }
+            }
+            if (result)
+            {
+                service.AuthenticateWith(token, tokenSecret);
+
+                service.SendTweet(new SendTweetOptions
+                {
+                    Status = $"@{screenname} I have defeated your devilish challenge, try harder next time",
+
+                });
+
+                return Ok(new GuessResult
+                {
+                    message = "Congratulations! You win!"
+                });
+            }
+
+            return Ok(new GuessResult {message = "Stop trying to guess"});
         }
     }
 }
