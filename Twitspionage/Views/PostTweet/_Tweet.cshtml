@@ -4,6 +4,18 @@
     @using (Html.BeginCollectionItem("Clues"))
     {
         <div>
+            @Html.LabelFor(model => model.Clue)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Clue)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Message)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Message)
+        </div>
+        <div>
             @Html.LabelFor(model => model.Latitude)
         </div>
         <div>
@@ -15,12 +27,7 @@
         <div>
             @Html.TextBoxFor(model => model.Longitude)
         </div>
-        <div>
-            @Html.LabelFor(model => model.Clue)
-        </div>
-        <div>
-            @Html.TextBoxFor(model => model.Clue)
-        </div>
+        <div class="map"></div>
         <a class="deleteRow">Delete</a>
     }
 </fieldset>

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Hammock.Authentication.OAuth;
 using TweetSharp;
 using Twitspionage.Models;
@@ -79,9 +80,23 @@ namespace Twitspionage.Controllers
             
             foreach (var clueDetail in details)
             {
-                var image = EncryptionService.GetImage(clueDetail, mysteryDetail);
+                var bmp = RandomImage.GetImage();
+                var colour = bmp.GetPixel(0, 0);
+                bmp.MakeTransparent(colour);
+
+                var embedded = new EmbeddedDetails
+                {
+                    Mystery = mysteryDetail.Name,
+                    Clue = clueDetail.Clue,
+                    Latitude = clueDetail.Latitude.Value,
+                    Longitude = clueDetail.Longitude.Value,
+                    Message = clueDetail.Message
+                };
+                var json = new JavaScriptSerializer().Serialize(embedded);
+                var message = Encryption.Encrypt(json);
+                var img = Steganography.Embed(message, bmp);
                 var ms = new MemoryStream();
-                image.Save(ms, ImageFormat.Png);
+                img.Save(ms, ImageFormat.Png);
                 ms.Seek(0, SeekOrigin.Begin);
                 service.SendTweetWithMedia(new SendTweetWithMediaOptions
                 {
