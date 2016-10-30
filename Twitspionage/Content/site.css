@@ -13,11 +13,11 @@
     background-image: url(https://getmdl.io/assets/components.png);
 }
 
-* + .mdl-textfield, * + .mdl-button {
+* + .mdl-textfield, * + .mdl-button, .mdl-chip {
     margin-bottom: 10px;
 }
 
-.mdl-textfield, .submit {
+.mdl-textfield {
     display: block;
 }
 

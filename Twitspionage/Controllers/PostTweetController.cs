@@ -113,7 +113,7 @@ namespace Twitspionage.Controllers
 
         private ActionResult Error(MysteryDetail mysteryDetail, string errorMessage)
         {
-            TempData["Error"] = errorMessage;
+            ViewBag.Error = errorMessage;
             return View("Index", mysteryDetail);
         }
 

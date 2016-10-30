@@ -20,7 +20,15 @@
             Html.RenderPartial("_Tweet", clueDetail);
         }
     </div>
-    @Html.ActionLink("Add", "NewClueDetail", null, new {id = "addItem", @class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"})
+
+    <span id="error" class="mdl-chip" style="display: none;">
+        <span class="mdl-chip__text">@ViewBag.Error</span>
+        <button type="button" class="mdl-chip__action"><i class="material-icons">cancel</i></button>
+    </span>
+    <br/>
+
+    @Html.ActionLink("Add", "NewClueDetail", null, new { id = "addItem", @class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" })
+    
     <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored submit">
         <i class="material-icons">send</i>
     </button>
@@ -28,45 +36,57 @@
 <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate" style="display: none;"></div>
 
 <script type="text/javascript">
-    if (navigator != null && navigator.geolocation != null) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-                $('#currentLat').html(position.coords.latitude);
-                $('#currentLon').html(position.coords.longitude);
-            },
-            function(position) {
-                console.log('Error getting location: ' + position.code);
-            });
-    }
-    $("#addItem")
-        .click(function() {
-            $.ajax({
-                url: this.href,
-                cache: false,
-                success: function (html) {
-                    $("#mystery").append(html);
-                    setupFields();
-                }
-            });
-            return false;
-        });
-
-    $('.submit').click(function() {
-        $('.mdl-progress').show();
-        $('form').submit();
-        $('form').hide();
-    });
-
-    function setupFields() {
-        var elements = $(".deleteRow");
-        elements.length > 1 ? elements.show() : elements.hide();
-        elements
+    $(function() {
+        if (navigator != null && navigator.geolocation != null) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                    $('#currentLat').html(position.coords.latitude);
+                    $('#currentLon').html(position.coords.longitude);
+                },
+                function(position) {
+                    console.log('Error getting location: ' + position.code);
+                });
+        }
+        $("#addItem")
             .click(function() {
-                $(this).parents("fieldset:first").remove();
-                setupFields();
+                $.ajax({
+                    url: this.href,
+                    cache: false,
+                    success: function (html) {
+                        $("#mystery").append(html);
+                        setupFields();
+                    }
+                });
                 return false;
             });
-        if (componentHandler != null) {
-            componentHandler.upgradeAllRegistered();
+
+        $('.submit').click(function() {
+            $('.mdl-progress').show();
+            $('form').submit();
+            $('form').hide();
+        });
+
+        function setupFields() {
+            var elements = $(".deleteRow");
+            elements.length > 1 ? elements.show() : elements.hide();
+            elements
+                .click(function() {
+                    $(this).parents("fieldset:first").remove();
+                    setupFields();
+                    return false;
+                });
+            var error = $('.mdl-chip__text').html();
+            if (error != null && error !== '') {
+                $('#error').show();
+                $('button, input, a').click(function () {
+                    $('#error').hide();
+                    $('#error').html('');
+                });
+            }
+            if (componentHandler != null) {
+                componentHandler.upgradeAllRegistered();
+            }
         }
-    }
+
+        setupFields();
+    });
 </script>
