@@ -204,8 +204,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ImageController.cs" />
-    <Compile Include="Controllers\PostTweetController.cs" />
+    <Compile Include="Controllers\MissionController.cs" />
     <Compile Include="Controllers\TwitterController.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="GeoLocation.cs" />
@@ -231,11 +230,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\PostTweet\Index.cshtml" />
-    <Content Include="Views\PostTweet\Success.cshtml" />
+    <Content Include="Views\Mission\Index.cshtml" />
+    <Content Include="Views\Mission\Success.cshtml" />
     <Content Include="scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="scripts\jquery-3.1.1.min.map" />
-    <Content Include="Views\PostTweet\_Tweet.cshtml" />
+    <Content Include="Views\Mission\_Clue.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

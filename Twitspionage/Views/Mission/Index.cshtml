@@ -18,7 +18,7 @@
 
         @foreach (var clueDetail in Model.Clues)
         {
-            Html.RenderPartial("_Tweet", clueDetail);
+            Html.RenderPartial("_Clue", clueDetail);
         }
     </div>
 
@@ -104,7 +104,8 @@
                     var longitude = lon.val() != null && lon.val() !== '' ? lon.val() : currentLon;
                     success({ lat: latitude, lon: longitude });
                     $(value).googleMap({
-                        coords: [latitude, longitude]
+                        coords: [latitude, longitude],
+                        zoom: 16
                     });
                     $(value).addMarker({
                         coords: [latitude, longitude],

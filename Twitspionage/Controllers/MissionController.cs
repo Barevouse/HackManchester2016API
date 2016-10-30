@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using Hammock.Authentication.OAuth;
 using TweetSharp;
 using Twitspionage.Models;
 
 namespace Twitspionage.Controllers
 {
-    public class PostTweetController : Controller
+    public class MissionController : Controller
     {
         [HttpGet]
         public ActionResult Index(string oauth_token, string oauth_verifier)
@@ -52,7 +47,7 @@ namespace Twitspionage.Controllers
 
             var profile = service.VerifyCredentials(new VerifyCredentialsOptions());
             
-            if(profile == null) return RedirectToAction("Index", "PostTweet", new {});
+            if(profile == null) return RedirectToAction("Index", "Mission", new {});
 
             ViewBag.Title = "Create Mission";
             return View(new MysteryDetail());
@@ -122,7 +117,7 @@ namespace Twitspionage.Controllers
 
         public ViewResult NewClueDetail()
         {
-            return View("_Tweet", new ClueDetail());
+            return View("_Clue", new ClueDetail());
         }
 
         private static TwitterService CreateTwitterService()
@@ -131,6 +126,12 @@ namespace Twitspionage.Controllers
             var consumerKey = settingsReader.GetValue("TwitterKey", typeof(string)).ToString();
             var consumerSecret = settingsReader.GetValue("TwitterSecret", typeof(string)).ToString();
             return new TwitterService(consumerKey, consumerSecret);
+        }
+
+        [HttpGet]
+        public ViewResult Success()
+        {
+            return View("Success");
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Twitspionage
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "PostTweet", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Mission", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
