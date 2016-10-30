@@ -10,6 +10,12 @@
 {
     <div id="mystery">
         @Html.AntiForgeryToken()
+
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            @Html.TextBoxFor(model => model.Name, new { @class = "mdl-textfield__input" })
+            @Html.LabelFor(model => model.Name, new { @class = "mdl-textfield__label" })
+        </div>
+
         @foreach (var clueDetail in Model.Clues)
         {
             Html.RenderPartial("_Tweet", clueDetail);

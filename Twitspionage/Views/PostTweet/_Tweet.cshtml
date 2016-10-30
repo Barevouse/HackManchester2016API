@@ -3,6 +3,7 @@
 <fieldset>
     @using (Html.BeginCollectionItem("Clues"))
     {
+        <h4>Clue</h4>
         <div class="fields">
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 @Html.TextBoxFor(model => model.Clue, new { @class = "mdl-textfield__input" })
