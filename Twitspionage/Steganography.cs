@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Images
+namespace Twitspionage
 {
     public static class Steganography
     {

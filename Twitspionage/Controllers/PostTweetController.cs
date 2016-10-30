@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
@@ -7,20 +8,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Hammock.Authentication.OAuth;
-using Images.Models;
 using TweetSharp;
+using Twitspionage.Models;
 
 namespace Twitspionage.Controllers
 {
     public class PostTweetController : Controller
     {
-        private const string ConsumerKey = "lsoMiOYqptZ6MdxxTiM1sIsc7";
-        private const string ConsumerSecret = "7x15u25SsTNKhXDG5hRrChV2P3zl3RzC0SxJPs6BMiBKzG1nzi";
-
         [HttpGet]
         public ActionResult Index(string oauth_token, string oauth_verifier)
         {
-            var service = new TwitterService(ConsumerKey, ConsumerSecret);
+            var service = CreateTwitterService();
 
             if (string.IsNullOrEmpty(oauth_token) || string.IsNullOrEmpty(oauth_verifier))
             {
@@ -49,12 +47,6 @@ namespace Twitspionage.Controllers
             TempData["token"] = accessToken.Token;
             TempData["tokenSecret"] = accessToken.TokenSecret;
 
-            var response = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
-            {
-                ScreenName = "Barevouse",
-                Count = 10
-            }) ?? new List<TwitterStatus>();
-
             var profile = service.VerifyCredentials(new VerifyCredentialsOptions());
             
             if(profile == null) return RedirectToAction("Index", "PostTweet", new {});
@@ -68,7 +60,7 @@ namespace Twitspionage.Controllers
         public ActionResult Index(MessageDetails messageDetails)
         {
 
-            var service = new TwitterService(ConsumerKey, ConsumerSecret);
+            var service = CreateTwitterService();
 
             var image = EncryptionService.GetImage(messageDetails);
             var ms = new MemoryStream();
@@ -87,6 +79,14 @@ namespace Twitspionage.Controllers
             });
 
             return View("Success");
+        }
+
+        private static TwitterService CreateTwitterService()
+        {
+            var settingsReader = new AppSettingsReader();
+            var consumerKey = settingsReader.GetValue("TwitterKey", typeof(string)).ToString();
+            var consumerSecret = settingsReader.GetValue("TwitterSecret", typeof(string)).ToString();
+            return new TwitterService(consumerKey, consumerSecret);
         }
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Web;
 
-namespace Images
+namespace Twitspionage
 {
     public class RandomImage
     {

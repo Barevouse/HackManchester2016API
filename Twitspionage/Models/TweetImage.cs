@@ -1,4 +1,4 @@
-namespace Images.Models
+namespace Twitspionage.Models
 {
     public class TweetImage
     {

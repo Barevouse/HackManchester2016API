@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Device.Location;
 using System.Drawing;
 using System.IO;
@@ -6,18 +7,20 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Script.Serialization;
-using Images.Models;
 using TweetSharp;
+using Twitspionage.Models;
 
-namespace Images.Controllers
+namespace Twitspionage.Controllers
 {
     public class TwitterController : ApiController
     {
         [HttpGet]
         public IHttpActionResult GetFeedPath(string token, string tokenSecret, double latitude, double longitude)
         {
-            var service = new TwitterService("lsoMiOYqptZ6MdxxTiM1sIsc7",
-                "7x15u25SsTNKhXDG5hRrChV2P3zl3RzC0SxJPs6BMiBKzG1nzi");
+            var settingsReader = new AppSettingsReader();
+            var consumerKey = settingsReader.GetValue("TwitterKey", typeof(string)).ToString();
+            var consumerSecret = settingsReader.GetValue("TwitterSecret", typeof(string)).ToString();
+            var service = new TwitterService(consumerKey, consumerSecret);
 
             service.AuthenticateWith(token, tokenSecret);
 
@@ -71,7 +74,7 @@ namespace Images.Controllers
                             Name = twitterStatus.User.Name,
                             MediaUrls = urls,
                             ProfileImageUrl = twitterStatus.User.ProfileImageUrl,
-                            decryptedMessage = embedded
+                            DecryptedMessage = embedded
                         });
                     }
                 }

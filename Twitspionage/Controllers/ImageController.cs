@@ -5,9 +5,9 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Web.Http;
 using System.Web.Script.Serialization;
-using Images.Models;
+using Twitspionage.Models;
 
-namespace Images.Controllers
+namespace Twitspionage.Controllers
 {
     public class ImageController : ApiController
     {

@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Images
+namespace Twitspionage
 {
     public static class Encryption
     {

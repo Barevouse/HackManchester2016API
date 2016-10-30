@@ -4,8 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
-using Images;
-using Images.Models;
+using Twitspionage.Models;
 
 namespace Twitspionage
 {

@@ -1,6 +1,6 @@
 ﻿using System.Device.Location;
 
-namespace Images
+namespace Twitspionage
 {
     public static class GeoLocation
     {
