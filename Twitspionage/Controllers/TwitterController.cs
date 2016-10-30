@@ -135,6 +135,7 @@ namespace Twitspionage.Controllers
 
             var statuses = new List<Tweets>();
 
+            var missionName = string.Empty;
 
             var result = false;
             foreach (var twitterStatus in response)
@@ -162,6 +163,7 @@ namespace Twitspionage.Controllers
                             if(embedded.FinalMystery.ToLower().Equals(guessAnswer.Guess.ToLower()))
                             {
                                 result = true;
+                                missionName = embedded.Mystery;
                             }
                         } 
                     }
@@ -173,7 +175,7 @@ namespace Twitspionage.Controllers
 
                 service.SendTweet(new SendTweetOptions
                 {
-                    Status = $"@{guessAnswer.Screenname} mission accomplished!",
+                    Status = $"@{guessAnswer.Screenname} mission '{missionName}' accomplished!",
 
                 });
 
