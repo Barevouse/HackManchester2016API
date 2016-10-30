@@ -69,9 +69,9 @@
         });
 
         function setupFields() {
-            var elements = $(".deleteRow");
-            elements.length > 1 ? elements.show() : elements.hide();
-            elements
+            var deleteButtons = $(".deleteRow");
+            deleteButtons.length > 1 ? deleteButtons.show() : deleteButtons.hide();
+            deleteButtons
                 .click(function() {
                     $(this).parents("fieldset:first").remove();
                     setupFields();
@@ -85,6 +85,10 @@
                     $('#error').html('');
                 });
             }
+            var clueTitles = $('h4');
+            clueTitles.each(function(key, value) {
+                $(value).text('Clue ' + (key + 1));
+            });
             if (componentHandler != null) {
                 componentHandler.upgradeAllRegistered();
             }
