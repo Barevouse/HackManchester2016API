@@ -12,13 +12,13 @@ namespace Twitspionage.Controllers
     public class ImageController : ApiController
     {
         [HttpPost, Route("api/image/create")]
-        public IHttpActionResult Create(MessageDetails details)
+        public IHttpActionResult Create(ClueDetail detail)
         {
-            if (string.IsNullOrEmpty(details.Message))
+            if (string.IsNullOrEmpty(detail.Message))
             {
                 return BadRequest("Needs a Message");    
             }
-            if (details.Latitude == null || details.Longitude == null)
+            if (detail.Latitude == null || detail.Longitude == null)
             {
                 return BadRequest("Needs a Latitude and Longitude");    
             }
@@ -26,9 +26,9 @@ namespace Twitspionage.Controllers
 
             var embedded = new EmbeddedDetails
             {
-                Message = details.Message,
-                Latitude = details.Latitude.Value,
-                Longitude = details.Longitude.Value
+                Message = detail.Message,
+                Latitude = detail.Latitude.Value,
+                Longitude = detail.Longitude.Value
             };
             var json = new JavaScriptSerializer().Serialize(embedded);
             var message = Encryption.Encrypt(json);
@@ -38,23 +38,23 @@ namespace Twitspionage.Controllers
         }
 
         [HttpPost, Route("api/image/retrieve")]
-        public IHttpActionResult Retrieve(ImageDetails details)
+        public IHttpActionResult Retrieve(ImageDetail detail)
         {
-            if (string.IsNullOrEmpty(details.Image))
+            if (string.IsNullOrEmpty(detail.Image))
             {
                 return BadRequest("Needs an Image");
             }
-            if (details.Latitude == null || details.Longitude == null)
+            if (detail.Latitude == null || detail.Longitude == null)
             {
                 return BadRequest("Needs a Latitude and Longitude");
             }
-            var bmp = GetBitmapFromBase64(details.Image);
+            var bmp = GetBitmapFromBase64(detail.Image);
             var extracted = Steganography.Extract(bmp);
             var decrypted = Encryption.Decrypt(extracted);
             var embedded = new JavaScriptSerializer().Deserialize<EmbeddedDetails>(decrypted);
             if (embedded == null) return Ok(new EmbeddedDetails());
             var imageLocation = new GeoCoordinate(embedded.Latitude, embedded.Longitude);
-            var userLocation = new GeoCoordinate(details.Latitude.Value, details.Longitude.Value);
+            var userLocation = new GeoCoordinate(detail.Latitude.Value, detail.Longitude.Value);
             var withinRadius = GeoLocation.WithinRadius(imageLocation, userLocation);
             var content = withinRadius ? embedded : new EmbeddedDetails();
             return Ok(content);

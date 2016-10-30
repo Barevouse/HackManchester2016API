@@ -1,32 +1,42 @@
-﻿@model Twitspionage.Models.MessageDetails
+﻿@model IEnumerable<Twitspionage.Models.ClueDetail>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@ViewData["Username"]
 
 <h2>Tweet clue</h2>
 
+<div class="hidden">
+    <span id="currentLat"></span>
+    <span id="currentLon"></span>
+</div>
+
 @using (Html.BeginForm())
 {
-    <fieldset>
-        <div>
-            @Html.LabelFor(model => model.Latitude)
-        </div>
-        <div>
-            @Html.TextBoxFor(model => model.Latitude)
-        </div>
-        <div>
-            @Html.LabelFor(model => model.Longitude)
-        </div>
-        <div>
-            @Html.TextBoxFor(model => model.Longitude)
-        </div>
-        <div>
-            @Html.LabelFor(model => model.Message)
-        </div>
-        <div>
-            @Html.TextBoxFor(model => model.Message)
-        </div>
-        <input type="submit" value="Tweet"/>
-    </fieldset>
+    <div id="mystery">
+        @foreach (var details in Model)
+        {
+            Html.RenderPartial("_Tweet", details);
+        }
+    </div>
+    @Html.ActionLink("Add another...", "NewClueDetail", null, new { id = "addItem" })
+    <input type="submit" value="Tweet" />
 }
+
+<script type="text/javascript">
+    if (navigator != null && navigator.geolocation != null) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            $('#currentLat').html(position.coords.latitude);
+            $('#currentLon').html(position.coords.longitude);
+    }, function(position) {
+            console.log('Error getting location: ' + position.code);
+        });
+    }
+    $("#addItem").click(function () {
+        $.ajax({
+            url: this.href,
+            cache: false,
+            success: function (html) { $("#mystery").append(html); }
+        });
+        return false;
+    });
+</script>

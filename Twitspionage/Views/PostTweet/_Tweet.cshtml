@@ -1,0 +1,25 @@
+﻿@model Twitspionage.Models.ClueDetail
+
+<fieldset>
+    @using (Html.BeginCollectionItem("ClueDetails"))
+    {
+        <div>
+            @Html.LabelFor(model => model.Latitude)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Latitude)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Longitude)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Longitude)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Message)
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.Message)
+        </div>
+    }
+</fieldset>

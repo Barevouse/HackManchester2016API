@@ -1,6 +1,6 @@
 namespace Twitspionage.Models
 {
-    public class ImageDetails
+    public class ImageDetail
     {
         public string Image { get; set; }
         public double? Latitude { get; set; }

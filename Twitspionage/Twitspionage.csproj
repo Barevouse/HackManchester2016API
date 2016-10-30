@@ -43,6 +43,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BeginCollectionItem, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BeginCollectionItem.1.2.1.0\lib\net35\BeginCollectionItem.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Hammock.ClientProfile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c148cfba29ed1a4d, processorArchitecture=MSIL">
       <HintPath>..\packages\TweetSharp.2.3.1\lib\4.0\Hammock.ClientProfile.dll</HintPath>
       <Private>True</Private>
@@ -151,6 +155,11 @@
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
     <Content Include="scripts\ai.0.22.19-build00125.min.js" />
+    <None Include="scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="scripts\jquery-3.1.1.js" />
+    <Content Include="scripts\jquery-3.1.1.min.js" />
+    <Content Include="scripts\jquery-3.1.1.slim.js" />
+    <Content Include="scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -167,8 +176,8 @@
     </Compile>
     <Compile Include="Models\CreatedImage.cs" />
     <Compile Include="Models\Details.cs" />
-    <Compile Include="Models\ImageDetails.cs" />
-    <Compile Include="Models\MessageDetails.cs" />
+    <Compile Include="Models\ImageDetail.cs" />
+    <Compile Include="Models\ClueDetail.cs" />
     <Compile Include="Models\RetrievedMessage.cs" />
     <Compile Include="Models\TweetImage.cs" />
     <Compile Include="Models\Tweets.cs" />
@@ -185,7 +194,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PostTweet\Index.cshtml" />
     <Content Include="Views\PostTweet\Success.cshtml" />
+    <Content Include="scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="scripts\jquery-3.1.1.min.map" />
     <None Include="Views\PostTweet\Error.cshtml" />
+    <Content Include="Views\PostTweet\_Tweet.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

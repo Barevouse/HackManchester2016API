@@ -10,7 +10,7 @@ namespace Twitspionage
 {
     public static class EncryptionService
     {
-        public static Bitmap GetImage(MessageDetails details)
+        public static Bitmap GetImage(ClueDetail detail)
         {
             var bmp = RandomImage.GetImage();
             var colour = bmp.GetPixel(0, 0);
@@ -18,9 +18,9 @@ namespace Twitspionage
 
             var embedded = new EmbeddedDetails
             {
-                Message = details.Message,
-                Latitude = details.Latitude.Value,
-                Longitude = details.Longitude.Value
+                Message = detail.Message,
+                Latitude = detail.Latitude.Value,
+                Longitude = detail.Longitude.Value
             };
             var json = new JavaScriptSerializer().Serialize(embedded);
             var message = Encryption.Encrypt(json);

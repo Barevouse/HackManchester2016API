@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -52,36 +53,39 @@ namespace Twitspionage.Controllers
             
             if(profile == null) return RedirectToAction("Index", "PostTweet", new {});
 
-            ViewData["Username"] = profile.ScreenName;
-
-            return View();
+            return View(new List<ClueDetail> { new ClueDetail() });
         }
 
         [HttpPost]
-        public ActionResult Index(MessageDetails messageDetails)
+        public ActionResult Index(IEnumerable<ClueDetail> clueDetails)
         {
-
             var service = CreateTwitterService();
-
-            var image = EncryptionService.GetImage(messageDetails);
-            var ms = new MemoryStream();
-            image.Save(ms, ImageFormat.Png);
-            ms.Seek(0, SeekOrigin.Begin);
 
             var token = TempData["token"];
             var tokenSecret = TempData["tokenSecret"];
 
             service.AuthenticateWith(token.ToString(), tokenSecret.ToString());
-
-            service.SendTweetWithMedia(new SendTweetWithMediaOptions
+            
+            foreach (var clueDetail in clueDetails)
             {
-                Status = "#twitspionage clue",
-                Images = new Dictionary<string, Stream> { { "Twitspionage clue", ms } }
-            });
+                var image = EncryptionService.GetImage(clueDetail);
+                var ms = new MemoryStream();
+                image.Save(ms, ImageFormat.Png);
+                ms.Seek(0, SeekOrigin.Begin);
+                service.SendTweetWithMedia(new SendTweetWithMediaOptions
+                {
+                    Status = "#twitspionage clue",
+                    Images = new Dictionary<string, Stream> { { "Twitspionage clue", ms } }
+                });
+                if (service.Response.StatusCode != HttpStatusCode.OK || service.Response.Error != null)
+                    return View("Error");
+            }
+            return View("Success");
+        }
 
-            return service.Response.StatusCode == HttpStatusCode.OK && service.Response.Error != null
-                ? View("Success")
-                : View("Error");
+        public ViewResult NewClueDetail()
+        {
+            return View("_Tweet", new ClueDetail());
         }
 
         private static TwitterService CreateTwitterService()
