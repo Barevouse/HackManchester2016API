@@ -95,7 +95,7 @@ namespace Twitspionage.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult GuessAnswer(string token, string tokenSecret, string screenname, string guess)
+        public IHttpActionResult GuessAnswer(GuessAnswer guessAnswer)
         {
 
             var settingsReader = new AppSettingsReader();
@@ -103,11 +103,11 @@ namespace Twitspionage.Controllers
             var consumerSecret = settingsReader.GetValue("TwitterSecret", typeof(string)).ToString();
             var service = new TwitterService(consumerKey, consumerSecret);
 
-            service.AuthenticateWith(token, tokenSecret);
+            service.AuthenticateWith(guessAnswer.token, guessAnswer.tokenSecret);
 
             var response = service.ListTweetsOnUserTimeline(new ListTweetsOnUserTimelineOptions
             {
-                ScreenName = screenname
+                ScreenName = guessAnswer.screenname
             }) ?? new List<TwitterStatus>();
 
             var statuses = new List<Tweets>();
@@ -134,20 +134,23 @@ namespace Twitspionage.Controllers
 
                         var embedded = new JavaScriptSerializer().Deserialize<EmbeddedDetails>(decryptedMessage);
 
-                        if (embedded.FinalMystery.Equals(guess))
+                        if (embedded.FinalMystery != null)
                         {
-                            result = true;
-                        }
+                            if(embedded.FinalMystery.Equals(guessAnswer.guess))
+                            {
+                                result = true;
+                            }
+                        } 
                     }
                 }
             }
             if (result)
             {
-                service.AuthenticateWith(token, tokenSecret);
+                service.AuthenticateWith(guessAnswer.token, guessAnswer.tokenSecret);
 
                 service.SendTweet(new SendTweetOptions
                 {
-                    Status = $"@{screenname} mission accomplished!",
+                    Status = $"@{guessAnswer.screenname} mission accomplished!",
 
                 });
 
@@ -159,5 +162,13 @@ namespace Twitspionage.Controllers
 
             return Ok(new GuessResult {message = "Incorrect, try again."});
         }
+    }
+
+    public class GuessAnswer
+    {
+        public string token { get; set; }
+        public string tokenSecret { get; set; }
+        public string screenname { get; set; }
+        public string guess { get; set; }
     }
 }
