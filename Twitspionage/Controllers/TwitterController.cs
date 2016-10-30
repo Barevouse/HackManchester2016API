@@ -65,6 +65,8 @@ namespace Twitspionage.Controllers
 
                         if (!GeoLocation.WithinRadius(currentLocation, requiredLocation)) continue;
 
+                        embedded.FinalMystery = null;
+
                         encrypted = true;
                         statuses.Add(new Tweets
                         {

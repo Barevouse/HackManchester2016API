@@ -77,7 +77,9 @@ namespace Twitspionage.Controllers
             var tokenSecret = TempData["tokenSecret"];
 
             service.AuthenticateWith(token.ToString(), tokenSecret.ToString());
-            
+
+            var finalMystery = details.Aggregate("", (current, detail) => current + detail.Clue);
+
             foreach (var clueDetail in details)
             {
                 var bmp = RandomImage.GetImage();
@@ -90,7 +92,8 @@ namespace Twitspionage.Controllers
                     Clue = clueDetail.Clue,
                     Latitude = clueDetail.Latitude.Value,
                     Longitude = clueDetail.Longitude.Value,
-                    Message = clueDetail.Message
+                    Message = clueDetail.Message,
+                    FinalMystery = finalMystery
                 };
                 var json = new JavaScriptSerializer().Serialize(embedded);
                 var message = Encryption.Encrypt(json);
